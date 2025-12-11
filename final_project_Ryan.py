@@ -1,27 +1,28 @@
 
 """
 Final Project: Expense Tracker
-Student Name: Kyle Ryan
+Student: Kyle Ryan
 
 A simple expense tracker that lets a user:
-- Add expenses
+- Add expenses (date, category, description, amount)
 - View all expenses
-- Compute total and average expenses
+- Compute total and average expenses (overall and by category)
 - Save/load expenses to/from a CSV file
 
 Uses:
 - variables, conditionals, loops, functions
 - a list to store expenses and a simple Expense class
-- file I/O for saving/loading 
-- error handling with try/except
+- file I/O for saving/loading (bonus)
+- error handling with try/except (bonus)
 """
 
 import csv
 from datetime import datetime
 
-
+# A simple class to represent an expense (bonus: includes a class)
 class Expense:
     def __init__(self, date, category, description, amount):
+        # date: string in YYYY-MM-DD
         self.date = date
         self.category = category
         self.description = description
@@ -33,9 +34,10 @@ class Expense:
     def __str__(self):
         return f"{self.date} | {self.category:12} | ${self.amount:8.2f} | {self.description}"
 
-
+# Global list to hold expenses (simple data structure)
 expenses = []
 
+# Function: add an expense (demonstrates input, conditionals, loops, functions, error handling)
 def add_expense():
     while True:
         try:
@@ -43,12 +45,13 @@ def add_expense():
             if date_in == "":
                 date_in = datetime.today().strftime("%Y-%m-%d")
             else:
+                # validate date format
                 datetime.strptime(date_in, "%Y-%m-%d")
             category = input("Enter category (e.g., Food, Transport, Bills): ").strip()
             if category == "":
                 category = "Uncategorized"
             description = input("Enter a short description: ").strip()
-            amount_str = input("Enter amount (e.g., 7.25): ").strip()
+            amount_str = input("Enter amount (e.g., 12.50): ").strip()
             amount = float(amount_str)
             if amount < 0:
                 print("Amount cannot be negative. Try again.")
@@ -60,7 +63,7 @@ def add_expense():
         except ValueError:
             print("Invalid input (date or amount). Please try again.")
 
-
+# Function: show expenses (loop through list)
 def show_expenses():
     if not expenses:
         print("No expenses recorded.")
@@ -72,6 +75,7 @@ def show_expenses():
     print("-" * 60)
     print(f"Total expenses recorded: {len(expenses)}")
 
+# Function: compute totals and averages (uses loops, conditionals)
 def compute_summary():
     if not expenses:
         print("No expenses to summarize.")
@@ -90,6 +94,7 @@ def compute_summary():
         cat_avg = cat_total / len(amounts)
         print(f" - {cat:12}: total ${cat_total:8.2f} | avg ${cat_avg:8.2f} ({len(amounts)} items)")
 
+# Function: save to CSV (file I/O bonus)
 def save_to_file(filename="expenses.csv"):
     try:
         with open(filename, "w", newline='', encoding="utf-8") as f:
@@ -101,6 +106,7 @@ def save_to_file(filename="expenses.csv"):
     except Exception as ex:
         print(f"Error saving to file: {ex}")
 
+# Function: load from CSV (file I/O bonus)
 def load_from_file(filename="expenses.csv"):
     try:
         with open(filename, "r", newline='', encoding="utf-8") as f:
@@ -115,13 +121,15 @@ def load_from_file(filename="expenses.csv"):
                     expenses.append(Expense(date_in, category, description, amount))
                     loaded += 1
                 except (ValueError, KeyError):
-                   continue
+                    # skip bad rows but continue
+                    continue
         print(f"Loaded {loaded} expenses from {filename}.")
     except FileNotFoundError:
         print(f"No file named {filename} found.")
     except Exception as ex:
         print(f"Error loading from file: {ex}")
 
+# Main menu loop (shows use of loops and conditionals)
 def main_menu():
     print("Welcome to the Expense Tracker!")
     print("Options:")
@@ -160,5 +168,6 @@ def main_menu():
         else:
             print("Invalid option. Please enter a number from the menu.")
 
+# Entry point
 if __name__ == "__main__":
     main_menu()
