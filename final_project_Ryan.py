@@ -1,9 +1,9 @@
 
 """
 Final Project: Expense Tracker
-Student: Kyle Ryan
+Name: Kyle Ryan
 
-A simple expense tracker that lets a user:
+A simple and easy to use expense tracker that lets a user:
 - Add expenses (date, category, description, amount)
 - View all expenses
 - Compute total and average expenses (overall and by category)
@@ -163,7 +163,7 @@ def main_menu():
             else:
                 print("Clear canceled.")
         elif choice == "0":
-            print("Goodbye! Remember to save your data if you want to keep it.")
+            print("Goodbye! Remember to save your data if you want to keep it!")
             break
         else:
             print("Invalid option. Please enter a number from the menu.")
